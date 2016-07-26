@@ -5,9 +5,60 @@
     xmlns:local="using:AlbumCoverMatchGame"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    xmlns:data="using:AlbumCoverMatchGame.models">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <Storyboard x:Name="countdown" Completed="countdown_Completed">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="myProgressBar" Storyboard.TargetProperty="(RangeBase.Value)" EnableDependentAnimation="True">
+                <DiscreteDoubleKeyFrame KeyTime="0" Value="100" />
+                <DiscreteDoubleKeyFrame KeyTime="0:0:1" Value="100" />
+                <DiscreteDoubleKeyFrame KeyTime="0:0:2" Value="90" />
+                <DiscreteDoubleKeyFrame KeyTime="0:0:3" Value="80" />
+                <DiscreteDoubleKeyFrame KeyTime="0:0:4" Value="70" />
+                <DiscreteDoubleKeyFrame KeyTime="0:0:5" Value="60" />
+                <DiscreteDoubleKeyFrame KeyTime="0:0:6" Value="50" />
+                <DiscreteDoubleKeyFrame KeyTime="0:0:7" Value="40" />
+                <DiscreteDoubleKeyFrame KeyTime="0:0:8" Value="30" />
+                <DiscreteDoubleKeyFrame KeyTime="0:0:9" Value="20" />
+                <DiscreteDoubleKeyFrame KeyTime="0:0:10" Value="10" />
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Page.Resources>
+    
+    <Grid Loaded="Grid_Loaded">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <ProgressBar Name="myProgressBar" Maximum="100" Minimum="0" Value="100" Height="20" Foreground="Blue" Margin="20"/>
+            <TextBlock Name="instructionTextBlock" Text="" Foreground="Blue" HorizontalAlignment="Center"/>
+            <MediaElement Name="myMediaElement" AutoPlay="True"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Vertical" Margin="20">
+            <GridView Name="SongGridview" IsItemClickEnabled="True" ItemClick="SongGridview_ItemClick" ItemsSource="{x:Bind Songs}">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="data:Song">
+                        <Grid>
+                            <Image Name="AlbumArts" Height="75" Width="75" Source="{x:Bind AlbumCover}" />
+                        </Grid>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+            
+            <TextBlock Name="resultTextBlock"/>
+            <TextBlock Name="titleTextBlock" />
+            <TextBlock Name="artistTextBlock" />
+            <TextBlock Name="albumTextBlock" />
+            
+            <Button Name="playAgain" Content="play again" Background="Red" HorizontalAlignment="Center" Visibility="Collapsed" Click="playAgain_Click"/>
+        </StackPanel>
+        <Grid Grid.Row="1">
+            <ProgressRing Name="startupProgressRing" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100" Foreground="Gray"/>
+        </Grid>
 
     </Grid>
 </Page>
